@@ -15,7 +15,7 @@ class Database {
   }
 
   Stream<List<Todo>> getAllTodo() {
-    return todos.snapshots().map((QuerySnapshot query) {
+    return todos.orderBy('timestamp', descending: true).snapshots().map((QuerySnapshot query) {
       return query.docs.map((snapshot) {
         return Todo.fromDocumentSnapshot(snapshot);
       }).toList();

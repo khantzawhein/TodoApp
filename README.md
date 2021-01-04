@@ -1,6 +1,6 @@
 # TodoByKZH
 
-A new Flutter project.
+Sample TodoApp.
 
 ## Getting Started
 

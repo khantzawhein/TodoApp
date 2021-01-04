@@ -82,11 +82,13 @@ class _CreateTodoState extends State<CreateTodo> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        validateAndSaveTodo();
-                      },
-                      child: Text('Create!'),
+                    child: Builder(
+                      builder: (newContext) => ElevatedButton(
+                        onPressed: () {
+                          validateAndSaveTodo(newContext);
+                        },
+                        child: Text('Create!'),
+                      ),
                     ),
                   ),
                 ],
@@ -105,11 +107,10 @@ class _CreateTodoState extends State<CreateTodo> {
     _titleController.dispose();
   }
 
-  void validateAndSaveTodo() async {
-    bool validated = _formKey.currentState.validate();
+  void validateAndSaveTodo(BuildContext newContext) async {
     ConnectivityResult internet = await Connectivity().checkConnectivity();
     if (internet == ConnectivityResult.none) {
-      Scaffold.of(context).showSnackBar(
+      Scaffold.of(newContext).showSnackBar(
         SnackBar(
           content: Text("Seems like you don't have internet connection."),
           backgroundColor: Colors.red,
@@ -117,6 +118,7 @@ class _CreateTodoState extends State<CreateTodo> {
       );
       return;
     }
+    bool validated = _formKey.currentState.validate();
     if (validated) {
       EasyLoading.show(status: 'Saving...');
       Todo todo = Todo(title: _titleController.text, body: _bodyController.text);
